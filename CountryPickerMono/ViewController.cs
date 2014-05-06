@@ -1,7 +1,4 @@
-﻿
-using System;
-using System.Drawing;
-
+﻿using System;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 
@@ -19,21 +16,12 @@ namespace CountryPickerMono
 		{
 		}
 
-		public override void DidReceiveMemoryWarning ()
-		{
-			// Releases the view if it doesn't have a superview.
-			base.DidReceiveMemoryWarning ();
-			
-			// Release any cached data, images, etc that aren't in use.
-		}
-
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
 
+			countryPicker.Setup (new CountrySelectionModel (NSLocale.ISOCountryCodes, NSLocale.CurrentLocale.GetCountryCodeDisplayName));
 			countryPicker.DidSelectCountry = HandleDidSelectCountry;
-			
-			// Perform any additional setup after loading the view, typically from a nib.
 		}
 
 		void HandleDidSelectCountry (string name, string code)

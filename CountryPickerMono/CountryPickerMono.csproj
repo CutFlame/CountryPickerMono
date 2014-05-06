@@ -363,6 +363,8 @@
       <DependentUpon>ViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="CountryPicker.cs" />
+    <Compile Include="CountrySelectionModel.cs" />
+    <Compile Include="CountryPickerSource.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
