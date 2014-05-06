@@ -40,6 +40,8 @@ namespace CountryPickerMono
 		{
 			nameLabel.Text = name;
 			codeLabel.Text = code;
+			var locale = countryPicker.SelectedLocale;
+			Console.WriteLine ("[CountryCode: {0}, LanguageCode: {1}, Identifier: {2}]", locale.CountryCode, locale.LanguageCode, locale.Identifier);
 		}
 	}
 }
