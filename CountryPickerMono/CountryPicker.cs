@@ -3,6 +3,7 @@ using MonoTouch.UIKit;
 using MonoTouch.Foundation;
 using System.Linq;
 using System.Drawing;
+using System.Collections.Generic;
 
 namespace CountryPickerMono
 {
@@ -12,61 +13,59 @@ namespace CountryPickerMono
 		public Action<string, string> DidSelectCountry;
 
 		string[] _countryNames;
+		string[] _countryCodes;
+		Dictionary<string, string> _countryNamesByCode;
+		Dictionary<string, string> _countryCodesByName;
 
 		public string[] CountryNames()
 		{
 			if(_countryNames == null)
 			{
-				_countryNames = CountryNamesByCode ().Values.Cast<string>().ToArray ();
+				_countryNames = CountryNamesByCode ().Values.ToArray ();
 			}
 			return _countryNames;
 		}
 
-		string[] _countryCodes;
 
 		public string[] CountryCodes()
 		{
-			if(_countryCodes==null)
+			if (_countryCodes == null)
 			{
 				_countryCodes = CountryCodesByName ().Values.Cast<string> ().ToArray ();
 			}
 			return _countryCodes;
 		}
 
-		NSDictionary _countryNamesByCode;
 
-		public NSDictionary CountryNamesByCode()
+		public Dictionary<string, string> CountryNamesByCode()
 		{
 			if (_countryNamesByCode == null)
 			{
-				NSMutableDictionary namesByCode = new NSMutableDictionary ();
+				_countryNamesByCode = new Dictionary<string, string> ();
 				foreach (var code in NSLocale.ISOCountryCodes)
 				{
-					var identifier = NSLocale.LocaleIdentifierFromComponents (NSDictionary.FromObjectAndKey (NSObject.FromObject (code), NSObject.FromObject ("NSLocalCountryCode")));
-					var countryName = NSLocale.CurrentLocale.GetIdentifierDisplayName (identifier);
+//					var identifier = NSLocale.LocaleIdentifierFromComponents (NSDictionary.FromObjectAndKey (NSObject.FromObject (code), new NSString ("NSLocalCountryCode")));
+					var countryName = NSLocale.CurrentLocale.GetCountryCodeDisplayName (code);
 					if (countryName != null)
 					{
-						namesByCode.Add (NSObject.FromObject (code), NSObject.FromObject (countryName));
+						_countryNamesByCode.Add (code, countryName);
 					}
 				}
-				_countryNamesByCode = (NSDictionary)namesByCode.Copy ();
 			}
 			return _countryNamesByCode;
 		}
 
-		NSDictionary _countryCodesByName;
 
-		public NSDictionary CountryCodesByName()
+		public Dictionary<string, string> CountryCodesByName()
 		{
-			if(_countryCodesByName==null)
+			if (_countryCodesByName == null)
 			{
-				NSDictionary countryNamesByCode = CountryNamesByCode ();
-				NSMutableDictionary codesByName = new NSMutableDictionary ();
-				foreach(var code in countryNamesByCode)
+				_countryCodesByName = new Dictionary<string, string> ();
+				var countryNamesByCode = CountryNamesByCode ();
+				foreach (var code in countryNamesByCode.Keys)
 				{
-					codesByName.Add (NSObject.FromObject (countryNamesByCode[NSObject.FromObject (code)]), NSObject.FromObject (code));
+					_countryCodesByName.Add (countryNamesByCode [code], code);
 				}
-				_countryCodesByName = (NSDictionary)codesByName.Copy ();
 			}
 			return _countryCodesByName;
 		}
@@ -176,7 +175,7 @@ namespace CountryPickerMono
 				}
 
 				((UILabel)view.ViewWithTag (1)).Text = _picker.CountryNames ()[row];
-				((UIImageView)view.ViewWithTag (2)).Image = UIImage.FromFile (_picker.CountryCodes ()[row]);
+				((UIImageView)view.ViewWithTag (2)).Image = UIImage.FromFile ("Flags/" + _picker.CountryCodes ()[row] + ".png");
 				return view;
 			}
 
