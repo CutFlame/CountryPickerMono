@@ -9,7 +9,9 @@ namespace CountryPickerMono
 	[Register("CountryPicker")]
 	public class CountryPicker : UIPickerView
 	{
-		public Action<string, string> DidSelectCountry;
+		public event EventHandler DidSelectCountry;
+
+		CountrySelectionModel _model;
 
 		public string SelectedCountryCode
 		{
@@ -51,8 +53,6 @@ namespace CountryPickerMono
 			}
 		}
 
-		CountrySelectionModel _model;
-
 		public CountryPicker (IntPtr handle) : base(handle)
 		{
 		}
@@ -88,12 +88,19 @@ namespace CountryPickerMono
 			SetSelectedCountryCode (locale.CountryCode, animated);
 		}
 
-		void CallDidSelectCountry(string name, string code)
+		void CallDidSelectCountry()
 		{
-			var handler = DidSelectCountry;
-			if (handler != null)
+			var eventHandler = DidSelectCountry;
+			if (eventHandler == null)
 			{
-				handler (name, code);
+				return;
+			}
+			foreach(var handler in eventHandler.GetInvocationList ())
+			{
+				if (handler != null)
+				{
+					handler.DynamicInvoke (this, EventArgs.Empty);
+				}
 			}
 		}
 

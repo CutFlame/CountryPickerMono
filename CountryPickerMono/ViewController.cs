@@ -21,15 +21,28 @@ namespace CountryPickerMono
 			base.ViewDidLoad ();
 
 			countryPicker.Setup (new CountrySelectionModel (NSLocale.ISOCountryCodes, NSLocale.CurrentLocale.GetCountryCodeDisplayName));
-			countryPicker.DidSelectCountry = HandleDidSelectCountry;
+			countryPicker.SetSelectedLocale (NSLocale.CurrentLocale);
+			countryPicker.DidSelectCountry += HandleDidSelectCountry;
 		}
 
-		void HandleDidSelectCountry (string name, string code)
+		void HandleDidSelectCountry (object sender, EventArgs e)
 		{
-			nameLabel.Text = name;
-			codeLabel.Text = code;
+			nameLabel.Text = countryPicker.SelectedCountryName;
+			codeLabel.Text = countryPicker.SelectedCountryCode;
 			var locale = countryPicker.SelectedLocale;
 			Console.WriteLine ("[CountryCode: {0}, LanguageCode: {1}, Identifier: {2}]", locale.CountryCode, locale.LanguageCode, locale.Identifier);
+		}
+
+		protected override void Dispose (bool disposing)
+		{
+			if(disposing)
+			{
+				if(countryPicker!=null)
+				{
+					countryPicker.DidSelectCountry -= HandleDidSelectCountry;
+				}
+			}
+			base.Dispose (disposing);
 		}
 	}
 }

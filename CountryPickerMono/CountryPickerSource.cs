@@ -7,7 +7,7 @@ namespace CountryPickerMono
 	
 	public class CountryPickerSource : UIPickerViewModel
 	{
-		public Action<string, string> DidSelectCountry;
+		public Action DidSelectCountry;
 
 		readonly CountrySelectionModel _model;
 
@@ -52,7 +52,7 @@ namespace CountryPickerMono
 			var handler = DidSelectCountry;
 			if (handler != null)
 			{
-				handler (_model.CountryNames [row], _model.CountryCodes [row]);
+				handler ();
 			}
 		}
 
