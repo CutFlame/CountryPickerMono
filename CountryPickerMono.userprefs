@@ -1,0 +1,16 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.IPhoneRetina4_64.7.1" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="CountryPickerMono/AppDelegate.cs">
+    <Files>
+      <File FileName="CountryPickerMono/AppDelegate.cs" Line="18" Column="10" />
+      <File FileName="CountryPickerMono/Main.cs" Line="1" Column="1" />
+      <File FileName="CountryPickerMono/ViewController.cs" Line="1" Column="1" />
+      <File FileName="CountryPickerMono/ViewController.designer.cs" Line="1" Column="1" />
+      <File FileName="CountryPickerMono/CountryPicker.cs" Line="1" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
