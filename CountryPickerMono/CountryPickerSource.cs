@@ -1,6 +1,7 @@
 using System;
 using System.Drawing;
 using MonoTouch.UIKit;
+using MonoTouch.Foundation;
 
 namespace CountryPickerMono
 {
@@ -31,15 +32,25 @@ namespace CountryPickerMono
 			if (view == null)
 			{
 				view = new UIView (new RectangleF (0, 0, 280, 30));
-				var label = new UILabel (new RectangleF (35, 3, 245, 24));
+				var label = new UILabel ();
 				label.BackgroundColor = UIColor.Clear;
 				label.Tag = 1;
 				view.AddSubview (label);
 
-				var flagView = new UIImageView (new RectangleF (3, 3, 24, 24));
+				var flagView = new UIImageView ();
 				flagView.ContentMode = UIViewContentMode.ScaleAspectFit;
 				flagView.Tag = 2;
 				view.AddSubview (flagView);
+
+				label.TranslatesAutoresizingMaskIntoConstraints = false;
+				flagView.TranslatesAutoresizingMaskIntoConstraints = false;
+				var dictOfViews = NSDictionary.FromObjectsAndKeys (new object[]{ label, flagView }, new string[]{ "label", "flagView" });
+				var dictOfMetrics = NSDictionary.FromObjectsAndKeys (new object[]{ 245, 24, 24, 3, }, new string[]{ "labelWidth", "flagHeight", "flagWidth", "veritcalPadding", });
+				view.AddConstraints (NSLayoutConstraint.FromVisualFormat ("H:|-[flagView(flagWidth)]-[label]-|", NSLayoutFormatOptions.DirectionLeadingToTrailing, dictOfMetrics, dictOfViews));
+				view.AddConstraints (NSLayoutConstraint.FromVisualFormat ("V:|-(>=veritcalPadding)-[flagView(flagHeight)]-(>=veritcalPadding)-|", NSLayoutFormatOptions.DirectionLeadingToTrailing, dictOfMetrics, dictOfViews));
+				view.AddConstraints (NSLayoutConstraint.FromVisualFormat ("V:|-(>=veritcalPadding)-[label(flagHeight)]-(>=veritcalPadding)-|", NSLayoutFormatOptions.DirectionLeadingToTrailing, dictOfMetrics, dictOfViews));
+				dictOfMetrics.Dispose ();
+				dictOfViews.Dispose ();
 			}
 
 			((UILabel)view.ViewWithTag (1)).Text = _model.CountryNames[row];

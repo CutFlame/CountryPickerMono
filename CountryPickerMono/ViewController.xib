@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13C1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13C1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
@@ -17,26 +17,46 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <pickerView contentMode="scaleToFill" id="8" customClass="CountryPicker">
-                    <rect key="frame" x="0.0" y="244" width="320" height="216"/>
+                <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8" customClass="CountryPicker">
+                    <rect key="frame" x="0.0" y="298" width="320" height="162"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="162" id="cdu-Oo-w43"/>
+                    </constraints>
                 </pickerView>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Name" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="10">
-                    <rect key="frame" x="61" y="50" width="198" height="21"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Name" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="10">
+                    <rect key="frame" x="20" y="50" width="280" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="21" id="yJO-X1-HIf"/>
+                    </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Code" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="11">
-                    <rect key="frame" x="136" y="105" width="48" height="21"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Code" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="11">
+                    <rect key="frame" x="20" y="105" width="280" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="21" id="ZHJ-fv-5YP"/>
+                    </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
             </subviews>
             <color key="backgroundColor" white="0.75" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="11" firstAttribute="top" secondItem="10" secondAttribute="bottom" constant="34" id="HZa-AK-3yN"/>
+                <constraint firstAttribute="trailing" secondItem="8" secondAttribute="trailing" id="LbU-3Q-y04"/>
+                <constraint firstAttribute="bottom" secondItem="8" secondAttribute="bottom" constant="20" symbolic="YES" id="Rxv-Vm-r0c"/>
+                <constraint firstItem="10" firstAttribute="top" secondItem="6" secondAttribute="top" constant="50" id="WUP-Ea-ExB"/>
+                <constraint firstItem="10" firstAttribute="leading" secondItem="6" secondAttribute="leading" constant="20" symbolic="YES" id="Zfo-nE-syt"/>
+                <constraint firstAttribute="trailing" secondItem="11" secondAttribute="trailing" constant="20" symbolic="YES" id="cyB-2c-5kE"/>
+                <constraint firstAttribute="trailing" secondItem="10" secondAttribute="trailing" constant="20" symbolic="YES" id="dxQ-zn-U2C"/>
+                <constraint firstItem="11" firstAttribute="leading" secondItem="6" secondAttribute="leading" constant="20" symbolic="YES" id="v8v-Je-40t"/>
+                <constraint firstItem="8" firstAttribute="leading" secondItem="6" secondAttribute="leading" id="vQX-VC-K5P"/>
+            </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
         </view>
     </objects>
