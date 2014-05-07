@@ -350,6 +350,7 @@
     <BundleResource Include="Flags\ZA.png" />
     <BundleResource Include="Flags\ZM.png" />
     <BundleResource Include="Flags\ZW.png" />
+    <BundleResource Include="Flags\Blank.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />

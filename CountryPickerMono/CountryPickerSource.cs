@@ -1,13 +1,19 @@
 using System;
+using System.Collections.Generic;
 using System.Drawing;
-using MonoTouch.UIKit;
 using MonoTouch.Foundation;
+using MonoTouch.UIKit;
 
 namespace CountryPickerMono
 {
-	
+	/// <summary>
+	/// Model (Source) for a UIPickerView to display countries and their flags
+	/// </summary>
 	public class CountryPickerSource : UIPickerViewModel
 	{
+		/// <summary>
+		/// Action fired when a country is selected
+		/// </summary>
 		public Action DidSelectCountry;
 
 		readonly CountrySelectionModel _model;
@@ -42,29 +48,39 @@ namespace CountryPickerMono
 				flagView.Tag = 2;
 				view.AddSubview (flagView);
 
-				label.TranslatesAutoresizingMaskIntoConstraints = false;
-				flagView.TranslatesAutoresizingMaskIntoConstraints = false;
-				var dictOfViews = NSDictionary.FromObjectsAndKeys (new object[]{ label, flagView }, new string[]{ "label", "flagView" });
-				var dictOfMetrics = NSDictionary.FromObjectsAndKeys (new object[]{ 245, 24, 24, 3, }, new string[]{ "labelWidth", "flagHeight", "flagWidth", "veritcalPadding", });
-				view.AddConstraints (NSLayoutConstraint.FromVisualFormat ("H:|-[flagView(flagWidth)]-[label]-|", NSLayoutFormatOptions.DirectionLeadingToTrailing, dictOfMetrics, dictOfViews));
-				view.AddConstraints (NSLayoutConstraint.FromVisualFormat ("V:|-(>=veritcalPadding)-[flagView(flagHeight)]-(>=veritcalPadding)-|", NSLayoutFormatOptions.DirectionLeadingToTrailing, dictOfMetrics, dictOfViews));
-				view.AddConstraints (NSLayoutConstraint.FromVisualFormat ("V:|-(>=veritcalPadding)-[label(flagHeight)]-(>=veritcalPadding)-|", NSLayoutFormatOptions.DirectionLeadingToTrailing, dictOfMetrics, dictOfViews));
-				dictOfMetrics.Dispose ();
-				dictOfViews.Dispose ();
+				view.AddConstraints (ConstraintsForFlagAndLabel (label, flagView));
 			}
 
-			((UILabel)view.ViewWithTag (1)).Text = _model.CountryNames[row];
-			((UIImageView)view.ViewWithTag (2)).Image = FlagForCountryCode(_model.CountryCodes[row]);
+			((UILabel)view.ViewWithTag (1)).Text = GetValueAtIndexOrDefault (_model.CountryNames, row);
+			var countryCodeOrBlank = GetValueAtIndexOrDefault (_model.CountryCodes, row, "Blank");
+			((UIImageView)view.ViewWithTag (2)).Image = FlagForCountryCode (countryCodeOrBlank);
 			return view;
 		}
 
-		public override void Selected (UIPickerView picker, int row, int component)
+		NSLayoutConstraint[] ConstraintsForFlagAndLabel (UILabel label, UIImageView flagView)
 		{
-			var handler = DidSelectCountry;
-			if (handler != null)
-			{
-				handler ();
-			}
+			label.TranslatesAutoresizingMaskIntoConstraints = false;
+			flagView.TranslatesAutoresizingMaskIntoConstraints = false;
+
+			var dictOfViews = NSDictionary.FromObjectsAndKeys
+			(
+				new object[] { label, flagView, },
+				new string[] { "label", "flagView", }
+			);
+			var dictOfMetrics = NSDictionary.FromObjectsAndKeys
+			(
+				new object[] { 245, 24, 24, 3, },
+				new string[] { "labelWidth", "flagHeight", "flagWidth", "veritcalPadding", }
+			);
+
+			var constraints = new List<NSLayoutConstraint> ();
+			constraints.AddRange (NSLayoutConstraint.FromVisualFormat ("H:|-[flagView(flagWidth)]-[label]-|", NSLayoutFormatOptions.DirectionLeadingToTrailing, dictOfMetrics, dictOfViews));
+			constraints.AddRange (NSLayoutConstraint.FromVisualFormat ("V:|-(>=veritcalPadding)-[flagView(flagHeight)]-(>=veritcalPadding)-|", NSLayoutFormatOptions.DirectionLeadingToTrailing, dictOfMetrics, dictOfViews));
+			constraints.AddRange (NSLayoutConstraint.FromVisualFormat ("V:|-(>=veritcalPadding)-[label(flagHeight)]-(>=veritcalPadding)-|", NSLayoutFormatOptions.DirectionLeadingToTrailing, dictOfMetrics, dictOfViews));
+
+			dictOfMetrics.Dispose ();
+			dictOfViews.Dispose ();
+			return constraints.ToArray ();
 		}
 
 		UIImage FlagForCountryCode(string code)
@@ -76,6 +92,24 @@ namespace CountryPickerMono
 		{
 			return "Flags/" + code + ".png";
 		}
-	}
 
+		public override void Selected (UIPickerView picker, int row, int component)
+		{
+			var handler = DidSelectCountry;
+			if (handler != null)
+			{
+				handler ();
+			}
+		}
+
+		static T GetValueAtIndexOrDefault<T> (T[] array, int index, T defaultValue = null) where T : class
+		{
+			if(0 <= index && index < array.Length)
+			{
+				return array [index];
+			}
+			return defaultValue;
+		}
+
+	}
 }

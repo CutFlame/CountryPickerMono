@@ -19,8 +19,7 @@ namespace CountryPickerMono
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
-
-			countryPicker.Setup (new CountrySelectionModel (NSLocale.ISOCountryCodes, NSLocale.CurrentLocale.GetCountryCodeDisplayName));
+			countryPicker.Setup ();
 			countryPicker.SetSelectedLocale (NSLocale.CurrentLocale);
 			countryPicker.DidSelectCountry += HandleDidSelectCountry;
 		}
