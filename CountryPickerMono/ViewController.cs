@@ -19,7 +19,11 @@ namespace CountryPickerMono
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
-			countryPicker.Setup ();
+
+			// Here you can specify which country codes are to be shown
+			var countryCodesForPicker = new []{ "CA", "US", "ZZ", };
+			countryPicker.Setup (countryCodesForPicker);
+
 			countryPicker.SetSelectedLocale (NSLocale.CurrentLocale);
 			countryPicker.DidSelectCountry += HandleDidSelectCountry;
 		}

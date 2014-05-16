@@ -73,7 +73,8 @@ namespace CountryPickerMono
 		}
 
 		/// <summary>
-		/// Setup the values to be displayed in the picker
+		/// Setup the <paramref name="countryCodes"/> to be displayed in the picker.
+		/// null will show all NSlocale.ISOCountryCodes
 		/// </summary>
 		public void Setup(string[] countryCodes = null)
 		{
